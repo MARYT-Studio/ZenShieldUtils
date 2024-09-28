@@ -107,6 +107,20 @@ repositories {
         name 'CleanroomMC Maven'
         url 'https://maven.cleanroommc.com'
     }
+    maven {
+        name 'CurseMaven'
+        url 'https://cursemaven.com'
+        content {
+            includeGroup 'curse.maven'
+        }
+    }
+    maven {
+        name 'BlameJared'
+        url 'https://maven.blamejared.com/'
+        content {
+            includeGroup 'CraftTweaker2'
+        }
+    }
 }
 
 dependencies {
@@ -144,6 +158,17 @@ dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
+
+    implementation rfg.deobf('CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.695')
+    implementation rfg.deobf('CraftTweaker2:CraftTweaker2-API:4.1.20.695')
+    implementation rfg.deobf('CraftTweaker2:ZenScript:4.1.20.695')
+
+    // Util Mods. just for debug convenience
+    runtimeOnly rfg.deobf('zone.rong:mixinbooter:8.9')
+    runtimeOnly rfg.deobf('curse.maven:zenutil-401178:4984714')
+    runtimeOnly rfg.deobf('curse.maven:ftb-utilities-forge-237102:3157548')
+    runtimeOnly rfg.deobf('curse.maven:ftb-library-legacy-forge-237167:2985811')
+    runtimeOnly rfg.deobf('curse.maven:had-enough-items-557549:4810661')
 }
 
 apply from: 'gradle/scripts/dependencies.gradle'
