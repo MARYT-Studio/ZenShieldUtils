@@ -4,7 +4,7 @@ import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.player.IPlayer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.init.MobEffects;
 import stanhebben.zenscript.annotations.ZenExpansion;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -36,11 +36,9 @@ public class ExpandPlayer {
         EntityPlayer playerEntity = (EntityPlayer) player.getInternal();
         playerEntity.setAbsorptionAmount(0.0f);
         // After that, vanilla Absorption buff has no use.
-        // It cannot be removed easily, so let user know by printing a log.
-        for (PotionEffect effect : playerEntity.getActivePotionEffects()) {
-            if (effect.getEffectName().equals("effect.absorption")) {
-                LOGGER.info("Cleared Absorption amount, but useless Absorption potion effect still remains.");
-            }
+        if (playerEntity.isPotionActive(MobEffects.ABSORPTION)) {
+            playerEntity.removePotionEffect(MobEffects.ABSORPTION);
+            LOGGER.info("Cleared Absorption amount and Absorption effect.");
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
-* Inspired by:
+* Borrowed from:
 * https://github.com/defeatedcrow/HeatAndClimateLib/blob/1.12.2_v3/main/java/defeatedcrow/hac/core/client/event/RenderTempHUDEvent.java
 * Thanks original mod author @defeatedcrow.
 * Code License: https://github.com/defeatedcrow/HeatAndClimateLib?tab=readme-ov-file#%E3%83%A9%E3%82%A4%E3%82%BB%E3%83%B3%E3%82%B9-licenses
@@ -32,23 +32,27 @@ public class ShieldEffectDisplayEvent {
     @SubscribeEvent
     public void doRender(RenderGameOverlayEvent.Post event) {
         if (event.getType() != null && event.getType() == ElementType.ALL) {
-            EntityPlayer player = Minecraft.getMinecraft().player;
-            World world = Minecraft.getMinecraft().world;
+            EntityPlayer player = AbsorptionStatusHelper.INSTANCE.getPlayer();
+            World world = AbsorptionStatusHelper.INSTANCE.getClientWorld();
             GuiScreen gui = Minecraft.getMinecraft().currentScreen;
             if (player != null && world != null && gui == null && !player.isSpectator()) {
+                // Condition of displaying HUD
+                if (AbsorptionStatusHelper.INSTANCE.updateAbsorptionStatus()) {
 
-                int sizeX = event.getResolution().getScaledWidth();
-                int sizeY = event.getResolution().getScaledHeight();
+                    int sizeX = event.getResolution().getScaledWidth();
+                    int sizeY = event.getResolution().getScaledHeight();
 
 
-                GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
-                        GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
-                        GlStateManager.DestFactor.ZERO);
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3F);
-                Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(ZenShieldUtils.MOD_ID,"textures/gui/hud.png"));
-                drawDisplayTexture(0, 0, sizeX, sizeY);
+                    GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA,
+                            GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE,
+                            GlStateManager.DestFactor.ZERO);
+                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3F);
+                    Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(ZenShieldUtils.MOD_ID,"textures/gui/hud.png"));
+                    drawDisplayTexture(0, 0, sizeX, sizeY);
 
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+                }
             }
         }
     }
